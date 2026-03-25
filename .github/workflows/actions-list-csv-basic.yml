@@ -3,7 +3,7 @@ name: List Workflow Actions
 on:
   workflow_dispatch:
     inputs:
-      customer:
+      tenant:
         description: 'StepSecurity tenant name'
         required: true
         type: string
@@ -33,7 +33,7 @@ jobs:
 
       - name: List workflow actions
         run: |
-          ARGS="--customer ${{ inputs.customer }} --token ${{ secrets.API_KEY }} --output workflow_actions.csv"
+          ARGS="--tenant ${{ inputs.tenant }} --token ${{ secrets.API_KEY }} --output workflow_actions.csv"
           if [[ -n "${{ inputs.org }}" ]]; then
             ARGS="$ARGS --org ${{ inputs.org }}"
           fi
@@ -42,6 +42,6 @@ jobs:
       - name: Upload results as artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: workflow-actions-${{ inputs.customer }}
+          name: workflow-actions-${{ inputs.tenant }}
           path: workflow_actions.csv
           retention-days: 30
